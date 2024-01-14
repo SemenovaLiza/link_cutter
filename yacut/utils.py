@@ -12,8 +12,6 @@ def custom_link_view():
 
 
 def validate_custom_link(link):
-    if len(link) > 16:
-        return False
     for elem in link:
         if elem not in SYMBOLS_CHOICE:
             return False

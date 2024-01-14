@@ -12,16 +12,16 @@ def index_view():
     if form.validate_on_submit():
         short_link = form.short_link.data
         if URLMap.query.filter_by(short=short_link).first():
-            flash(f'Предложенный вариант короткой ссылки уже существует.')
-            return render_template('index.html', form=form)
-        
-        if not validate_custom_link(short_link):
-            flash('Допустимые символы: A-z, 0-9. Длина не должна превышать 16 символов.')
+            flash("Предложенный вариант короткой ссылки уже существует.")
             return render_template('index.html', form=form)
 
         if not short_link:
             short_link = custom_link_view()
-        
+
+        if not validate_custom_link(short_link) or len(short_link) > 16:
+            flash('Указано недопустимое имя для короткой ссылки')
+            return render_template('index.html', form=form)
+
         custom_link = URLMap(
             original=form.original_link.data,
             short=short_link
@@ -30,8 +30,8 @@ def index_view():
         db.session.commit()
         return render_template(
             'index.html', form=form,
-            short_link=BASE_URL+custom_link.short,
-            )
+            short_link=BASE_URL + custom_link.short,
+        )
     return render_template('index.html', form=form)
 
 
