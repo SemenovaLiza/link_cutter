@@ -5,7 +5,7 @@ from flask import jsonify, request
 from . import app, db
 from .models import URLMap
 from .error_handlers import InvalidAPIUsage
-from .utils import custom_link_view, validate_custom_link, check_unique_short_id
+from .utils import get_unique_short_id, check_url_symbols, check_unique_short_id
 
 
 @app.route('/api/id/', methods=['POST'])
@@ -19,14 +19,14 @@ def add_opinion():
         raise InvalidAPIUsage('\"url\" является обязательным полем!', HTTPStatus.BAD_REQUEST)
 
     if 'custom_id' not in data or data['custom_id'] is None:
-        data['custom_id'] = custom_link_view()
+        data['custom_id'] = get_unique_short_id()
 
     custom_short_id = data['custom_id']
 
     if check_unique_short_id(custom_short_id):
         raise InvalidAPIUsage('Предложенный вариант короткой ссылки уже существует.', HTTPStatus.BAD_REQUEST)
 
-    if not validate_custom_link(custom_short_id) or len(custom_short_id) > 16:
+    if not check_url_symbols(custom_short_id):
         raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки', HTTPStatus.BAD_REQUEST)
 
     link = URLMap()

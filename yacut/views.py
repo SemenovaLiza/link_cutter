@@ -1,36 +1,36 @@
-from flask import render_template, flash, redirect
+from flask import flash, redirect, render_template
 
-from . import BASE_URL, app, db
+from . import app, db, BASE_URL
 from .forms import URLForm
 from .models import URLMap
-from .utils import custom_link_view, validate_custom_link
+from .utils import check_unique_short_id, check_url_symbols, get_unique_short_id
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index_view():
     form = URLForm()
     if form.validate_on_submit():
-        short_link = form.short_link.data
-        if URLMap.query.filter_by(short=short_link).first():
+        custom_id = form.custom_id.data
+        if check_unique_short_id(custom_id):
             flash("Предложенный вариант короткой ссылки уже существует.")
             return render_template('index.html', form=form)
 
-        if not short_link:
-            short_link = custom_link_view()
-
-        if not validate_custom_link(short_link) or len(short_link) > 16:
+        if custom_id and not check_url_symbols(custom_id):
             flash('Указано недопустимое имя для короткой ссылки')
             return render_template('index.html', form=form)
 
+        if not custom_id:
+            custom_id = get_unique_short_id()
+
         custom_link = URLMap(
             original=form.original_link.data,
-            short=short_link
+            short=custom_id
         )
         db.session.add(custom_link)
         db.session.commit()
         return render_template(
             'index.html', form=form,
-            short_link=BASE_URL + custom_link.short,
+            custom_id=BASE_URL + custom_link.short,
         )
     return render_template('index.html', form=form)
 
