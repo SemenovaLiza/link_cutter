@@ -2,14 +2,14 @@ import random
 from string import digits, ascii_letters
 
 from .models import URLMap
-from settings import SYMBOLS_CHOICE_LENGHT, SHORT_LINK_MAX_LENGHT
+from settings import DEFAULT_SHORT_LINK_LENGHT, SHORT_LINK_MAX_LENGHT
 
 
 SYMBOLS_CHOICE = list(digits + ascii_letters)
 
 
 def get_unique_short_id():
-    link = random.choices(SYMBOLS_CHOICE, k=SYMBOLS_CHOICE_LENGHT)
+    link = random.choices(SYMBOLS_CHOICE, k=DEFAULT_SHORT_LINK_LENGHT)
     return ''.join(link)
 
 

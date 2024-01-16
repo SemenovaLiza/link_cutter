@@ -2,7 +2,8 @@ import os
 
 
 SHORT_LINK_MAX_LENGHT = 16
-SYMBOLS_CHOICE_LENGHT = 6
+DEFAULT_SHORT_LINK_LENGHT = 6
+REGEX_FORM_VALIDATION = '[A-Za-z0-9]*$'
 
 
 class Config(object):
