@@ -1,33 +1,44 @@
-# Укорачиватель ссылок
+# Link cutter / URL shortener
 
-Ключевые возможности сервиса:
-* генерация коротких ссылок и связь их с исходными длинными ссылками
-* переадресация на исходный адрес при обращении к коротким ссылкам
+![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&logoColor=white)
+![Pytest](https://img.shields.io/badge/tests-passing-brightgreen?style=flat-square&logo=pytest)!
+![Flask](https://img.shields.io/badge/Flask-2.0.2-blue)
+![Status](https://img.shields.io/badge/status-finished-green?style=flat-square)
 
-Пользовательский интерфейс сервиса — одна страница с формой. Эта форма состоит из двух полей:
-* обязательного для длинной исходной ссылки
-* необязательного для пользовательского варианта короткой ссылки (не должен превышать 16 символов)
+## System requirements
+* Python 3.9
+* Flask 2.0.2
+* Works on Linux, Windows, macOS
 
-Если пользователь предложит вариант короткой ссылки, который уже занят, то появляется соответствующее уведомление. Существующая в базе данных ссылка должна остаться неизменной.
+## Key features:
+* Generates short links and associates them with the original long URLs
+* Redirects to the original URL when accessing the short link
 
-Если пользователь не заполнит поле со своим вариантом короткой ссылки, то сервис генерирует её автоматически. Формат для ссылки по умолчанию — шесть случайных символов, в качестве которых можно использовать:
-* большие латинские буквы,
-* маленькие латинские буквы,
-* цифры в диапазоне от 0 до 9.
+# User interface
+The service has a single-page form consisting of two fields:
+* A required field for the original long URL
+* An optional field for a custom short link (maximum 16 characters)
 
-Автоматически сгенерированная короткая ссылка добавляется в базу данных, но только если в ней уже нет такого же идентификатора. В противном случае идентификатор генерируется заново.
+If the user suggests a custom short link that is already taken, an appropriate notification appears. The existing link in the database remains unchanged.
 
+If the user leaves the custom short link field empty, the service automatically generates one. The default format for a short link is six random characters, which can include:
+* Uppercase latin letters
+* Lowercase Latin letters
+* Digits from 0 to 9
 
-## API для проекта
-
-API проекта доступен всем желающим. Сервис обслуживает только два эндпоинта:
-* /api/id/ — POST-запрос на создание новой короткой ссылки;
-* /api/id/<short_id>/ — GET-запрос на получение оригинальной ссылки по указанному короткому идентификатору.
-
-Примеры запросов к API, варианты ответов и ошибок приведены в спецификации openapi.yml
+The automatically generated short link is added to the database only if the identifier is unique. Otherwise, a new identifier is generated.
 
 
-## Примеры запросов
+## Project API
+
+The project's API is publicly accessible. The service supports two endpoints:
+* /api/id/ — POST request to create a new short link;
+* /api/id/<short_id>/ — GET request to retrieve the original URL by the specified short URL.
+
+Examples of API requests, possible responses, and errors are provided in the **openapi.yml** specification.
+
+
+## API requests examples
 
 **GET** `.../api/id/{short_id}/`
 *200*
@@ -66,7 +77,7 @@ API проекта доступен всем желающим. Сервис об
 ```
 
 
-## Шаблон наполнения .env файла
+## .env file template
 ```
 FLASK_APP=yacut
 FLASK_ENV=development
@@ -75,28 +86,25 @@ SECRET_KEY=SECRET
 ```
 
 
-## Инструкция по развёртыванию проекта
+## Deployement
 
-* клонировать проект на компьютер `git clone git@github.com:SemenovaLiza/yacut.git`
-* создание виртуального окружения `python3 -m venv venv`
-* Если у вас Linux/macOS
+* Clone the project to your computer `git clone git@github.com:SemenovaLiza/yacut.git`
+* Create a virtual environment `python3 -m venv venv`
+* Activate the virtual environment:
+* For Linux/macOS:
 
     ```
     source venv/bin/activate
     ```
 
-* Если у вас windows
+* For Windows:
 
     ```
     source venv/scripts/activate
     ```
-* установить зависимости из файла requirements.txt `pip install -r requirements.txt`
-* запуск тестов `pytest`
-* запуск приложения `flask run`
+* Install dependencies from requirements.txt `pip install -r requirements.txt`
+* Run tests `pytest`
+* Run the application `flask run`
 
-
-## Системные требования
-
-* Python 3.9
-* Flask 2.0.2
-* Works on Linux, Windows, macOS
+# Author
+Elizaveta Semenova
