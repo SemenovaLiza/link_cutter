@@ -11,6 +11,6 @@ def test_fields(_app):
         all(field in fields for field 
             in ['id', 'original', 'short', 'timestamp'])
     ), (
-        'В модели не найдены все необходимые поля. '
-        'Проверьте модель: в ней должны быть поля id, original, short и timestamp.'
+        'All necessary fields were not found in the model. '
+        'Check the model: it should contain the fields id, original, short and timestamp.'
     )

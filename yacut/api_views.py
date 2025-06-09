@@ -13,10 +13,10 @@ def add_opinion():
     data = request.get_json()
 
     if not data:
-        raise InvalidAPIUsage('Отсутствует тело запроса', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Request body is missing!', HTTPStatus.BAD_REQUEST)
 
     if 'url' not in data:
-        raise InvalidAPIUsage('\"url\" является обязательным полем!', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('\"url\" is required field!', HTTPStatus.BAD_REQUEST)
 
     if 'custom_id' not in data or data['custom_id'] is None:
         data['custom_id'] = get_unique_short_id()
@@ -24,10 +24,10 @@ def add_opinion():
     custom_short_id = data['custom_id']
 
     if check_unique_short_id(custom_short_id):
-        raise InvalidAPIUsage('Предложенный вариант короткой ссылки уже существует.', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Suggested short link already exist!', HTTPStatus.BAD_REQUEST)
 
     if not check_url_symbols(custom_short_id):
-        raise InvalidAPIUsage('Указано недопустимое имя для короткой ссылки', HTTPStatus.BAD_REQUEST)
+        raise InvalidAPIUsage('Invalid name is specified for the short link!', HTTPStatus.BAD_REQUEST)
 
     link = URLMap()
     link.from_dict(data)
@@ -40,5 +40,5 @@ def add_opinion():
 def get_original_url(short_id):
     url = URLMap.query.filter_by(short=short_id).first()
     if url is None:
-        raise InvalidAPIUsage('Указанный id не найден', HTTPStatus.NOT_FOUND)
+        raise InvalidAPIUsage('Specified id was not found!', HTTPStatus.NOT_FOUND)
     return jsonify({'url': url.original}), HTTPStatus.OK

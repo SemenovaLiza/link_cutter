@@ -12,11 +12,11 @@ def index_view():
     if form.validate_on_submit():
         custom_id = form.custom_id.data
         if check_unique_short_id(custom_id):
-            flash("Предложенный вариант короткой ссылки уже существует.")
+            flash("Suggested short link already exist!")
             return render_template('index.html', form=form)
 
         if custom_id and not check_url_symbols(custom_id):
-            flash('Указано недопустимое имя для короткой ссылки')
+            flash('Invalid name is specified for the short link!')
             return render_template('index.html', form=form)
 
         if not custom_id:
