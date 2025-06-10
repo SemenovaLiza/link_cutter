@@ -4,7 +4,7 @@
   <section class="container my-5 px-4">
     <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
     <p class="text-center my-4">
-      Создайте короткую ссылку автоматически или предложите свой вариант
+      Create short link automatically or suggest your option
     </p>
 
     <div class="container">
@@ -12,7 +12,7 @@
         <div class="col-sm">
         </div>
         <div class="col-sm">
-          <form method="POST" novalidate>
+          <form id="link_form" method="POST" onsubmit="submitForm(event)" novalidate>
             {{ form.csrf_token }}
             {{ form.original_link(class="form-control form-control-lg py-2 mb-3", placeholder=form.original_link.label.text) }}
             <p>
@@ -43,7 +43,7 @@
         <div class="col-sm">
         </div>
         <div class="col-sm">
-          <p class="text-center">
+          <div class="text-center">
             {% with messages = get_flashed_messages() %}
               {% if messages %}
                 {% for message in messages %}
@@ -51,11 +51,11 @@
                 {% endfor %}
               {% endif %}
             {% endwith %}
-            {% if custom_id %}
-              <h5 class="text-center">Ваша новая ссылка готова:</h5>
-              <a href="{{ custom_id }}">{{ custom_id }}</a>
-            {% endif %}
-          </p>
+            <div class="text-center" id="link_container" style="display: none;">
+              <h5 class="text-center">New link is ready:</h5>
+              <a href="#" id="new_link"></a>
+            </div>
+          </div>
         </div>
         <div class="col-sm">
         </div>
