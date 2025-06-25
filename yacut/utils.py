@@ -2,7 +2,7 @@ import random
 from string import digits, ascii_letters
 
 from .models import URLMap
-from settings import DEFAULT_SHORT_LINK_LENGHT, SHORT_LINK_MAX_LENGHT
+from yacut.settings import DEFAULT_SHORT_LINK_LENGHT, SHORT_LINK_MAX_LENGHT
 
 
 SYMBOLS_CHOICE = list(digits + ascii_letters)

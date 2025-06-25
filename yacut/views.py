@@ -36,10 +36,20 @@ def index_view():
 
     return render_template('index.html', form=form)
 
-# db.session.add(custom_link)
- #       db.session.commit()
 
 @app.route('/<string:short>', methods=['GET'])
 def link_work_view(short):
     link = URLMap.query.filter_by(short=short).first_or_404()
     return redirect(link.original)
+
+
+@app.route('/api/links', methods=['GET'])
+def get_links():
+    try:
+        links =URLMap.query.order_by(URLMap.id).limit(30).all()
+        formatted_links = []
+        for link in links:
+            formatted_links.append(f"yacut.ca/{link.short}")
+        return jsonify({'links': formatted_links})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
